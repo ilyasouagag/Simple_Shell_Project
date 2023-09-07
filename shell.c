@@ -1,9 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "main.h"
+/**
+ * main - create a simple shell
+ * @ac: number of arguments
+ * @argv: arguments passed in terminal
+ * @env: environments
+ * Return: return 0
+ */
 int main(int ac, char *argv[], char *env[])
 {
 	ssize_t scan;
@@ -25,7 +27,7 @@ int main(int ac, char *argv[], char *env[])
 			exit(0);
 		}
 		entry[scan - 1] = '\0';
-		if(strcmp(entry,"exit")== 0)
+		if (_strncmp(entry, "exit", 4) == 0)
 		{
 			free(entry);
 			break;
@@ -42,16 +44,13 @@ int main(int ac, char *argv[], char *env[])
 			arguments[1] = NULL;
 			if (execve(entry, arguments, env) == -1)
 			{
-				perror("./main");
+				perror("./shell");
 				free(entry);
 				exit(EXIT_FAILURE);
 			}
 		}
 		else
-		{
 			wait(NULL);
-			
-		}
 	}
 	return (0);
 }
