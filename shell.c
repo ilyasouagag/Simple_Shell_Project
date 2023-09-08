@@ -6,15 +6,14 @@
  * @env: environments
  * Return: return 0
  */
-int main(int ac, char *argv[], char *env[])
+extern char** environ;
+int main(void)
 {
 	ssize_t scan;
 	size_t len = 0;
 	char *entry = NULL;
 	char *arguments[2];
 	pid_t pid;
-	(void)ac;
-	(void)argv;
 
 	while (1)
 	{
@@ -42,7 +41,7 @@ int main(int ac, char *argv[], char *env[])
 		{
 			arguments[0] = entry;
 			arguments[1] = NULL;
-			if (execve(entry, arguments, env) == -1)
+			if (execve(entry, arguments, environ) == -1)
 			{
 				perror("./shell");
 				free(entry);
