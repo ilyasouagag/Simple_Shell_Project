@@ -17,12 +17,15 @@ int main(void)
 
 	while (1)
 	{
-		write(1, ":)", 2);
+		if(isatty(STDIN_FILENO))
+		{
+			write(1, ":)", 2);
+			fflush(stdout);
+		}
 		scan = getline(&entry, &len, stdin);
 		if (scan == -1)
 		{
 			free(entry);
-			perror("enter line");
 			exit(0);
 		}
 		entry[scan - 1] = '\0';
