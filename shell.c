@@ -26,7 +26,7 @@ int main(void)
 			if (scan == -1)
 			{
 				free(entry);
-				exit(EXIT_FAILURE);
+				exit(0);
 			}
 			entry[scan - 1] = '\0';
 			for (i = 0; entry[i] != '\0'; i++)
@@ -111,6 +111,8 @@ int main(void)
 					free(entry);
 					exit(EXIT_FAILURE);
 				}
+				else
+					exit(0);
 			}
 			else
 				wait(NULL);
