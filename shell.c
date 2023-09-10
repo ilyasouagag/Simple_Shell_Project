@@ -13,8 +13,7 @@ int main(void)
 	size_t len = 0;
 	char *entry = NULL;
 	char *arguments[2];
-	int i;
-	char space[1024] = "";
+	int j, alert = 0;
 	pid_t pid;
 	char *token;
 
@@ -29,15 +28,18 @@ int main(void)
 				exit(0);
 			}
 			entry[scan - 1] = '\0';
-			for (i = 0; entry[i] != '\0'; i++)
+			for (j = 0; entry[j] != '\0'; j++)
 			{
-				space[i] = ' ';
+				if (entry[j] != 32)
+				{
+					alert = 1;
+					break;
+				}
 			}
-			space[i] = '\0';
-			if (_strcmp(entry, space) == 0)
+			if(alert == 0)
 			{
 				free(entry);
-				return (0);
+				return 0;
 			}
 
 			if (_strncmp(entry, "exit", 4) == 0)
@@ -79,15 +81,18 @@ int main(void)
 				exit(0);
 			}
 			entry[scan - 1] = '\0';
-			for (i = 0; entry[i] != '\0'; i++)
+				for (j = 0; entry[j] != '\0'; j++)
 			{
-				space[i] = ' ';
+				if (entry[j] != 32)
+				{
+					alert = 1;
+					break;
+				}
 			}
-			space[i] = '\0';
-			if (_strcmp(entry, space) == 0)
+			if(alert == 0)
 			{
 				free(entry);
-				return (0);
+				return 0;
 			}
 
 			if (_strncmp(entry, "exit", 4) == 0)
