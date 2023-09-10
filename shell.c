@@ -24,7 +24,7 @@ int main(void)
 			scan = getline(&entry, &len, stdin);
 			if (scan == -1)
 			{
-				free(entry);
+				printf("\n");
 				exit(0);
 			}
 			entry[scan - 1] = '\0';
