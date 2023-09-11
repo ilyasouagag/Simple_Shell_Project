@@ -11,10 +11,8 @@ int main(int argc, char **argv)
 	char *line = NULL, **arguments = NULL;
 	char pipe_input[1024];
 	size_t len = 0;
-	size_t longueur;
 	ssize_t lenght = 0;
-
-	int status = 0, alert, j;
+	int check, status = 0;
 	(void)argc;
 	(void)argv;
 
@@ -38,27 +36,12 @@ int main(int argc, char **argv)
 		{
 			while (fgets(pipe_input, sizeof(pipe_input), stdin)) /* DOESN'T ALLOCATE THE MEMORY */
 			{
-				longueur = strlen(pipe_input);
-				if (longueur > 0 && pipe_input[longueur - 1] == '\n')
-				{
-					pipe_input[longueur - 1] = '\0';
-				}
-				alert = 0;
-				for (j = 0; pipe_input[j] != '\0'; j++)
-				{
-					if (pipe_input[j] != ' ')
-					{
-						alert = 1;
-						break;
-					}
-				}
-				if (alert == 0)
-				{
+				check = check_empty(pipe_input);
+				if (!check)
 					continue;
-				}
-				if(_strncmp(pipe_input,"exit",4) == 0)
+				if (_strncmp(pipe_input, "exit", 4) == 0)
 				{
-					return(status);
+					return (status);
 				}
 				arguments = split_line(pipe_input, 0);
 				status = execution(arguments, pipe_input, 0);

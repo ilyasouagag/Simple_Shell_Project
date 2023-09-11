@@ -72,3 +72,24 @@ char **split_line(char *line, int alert)
 	tokens[token_count] = NULL;
 	return (tokens);
 }
+int check_empty(char *arg)
+{
+	size_t longueur;
+	int alert = 0;
+	int j;
+	longueur = strlen(arg);
+	if (longueur > 0 && arg[longueur - 1] == '\n')
+	{
+		arg[longueur - 1] = '\0';
+	}
+	alert = 0;
+	for (j = 0; arg[j] != '\0'; j++)
+	{
+		if (arg[j] != ' ')
+		{
+			alert = 1;
+			break;
+		}
+	}
+	return (alert);
+}
