@@ -21,24 +21,6 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 /**
- * _strlen - return the legnth of a string
- *
- * @s: pointer
- *
- * Return: return len
- */
-int _strlen(char *s)
-{
-	int len = 0;
-
-	while (*s)
-	{
-		len++;
-		s++;
-	}
-	return (len);
-}
-/**
  * str_concat - function that concatenates two strings
  * @s1: string number 1
  * @s2: string number 2

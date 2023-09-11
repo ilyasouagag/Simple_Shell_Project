@@ -1,23 +1,23 @@
 #include "main.h"
 
-int execution(char **arguments, char *line, int alert)
+int execution(char **arguments, char *entry, int alert)
 {
-	int status = 0, child_pid = 1;
+	int status = 0, pid = 1;
 
-	child_pid = fork();
-	if (child_pid == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		perror("fork");
 		free_2D(arguments);
 		exit(EXIT_FAILURE);
 	}
-	if (child_pid == 0)
+	if (pid == 0)
 	{
 		if (execve(arguments[0], arguments, environ) == -1)
 		{
 			perror("./shell");
 			if (alert)
-				free(line);
+				free(entry);
 
 			free_2D(arguments);
 			exit(EXIT_FAILURE);
@@ -25,7 +25,7 @@ int execution(char **arguments, char *line, int alert)
 	}
 	else
 	{
-		waitpid(child_pid, &status, 0);
+		waitpid(pid, &status, 0);
 		free_2D(arguments);
 	}
 	return (status);
@@ -33,18 +33,18 @@ int execution(char **arguments, char *line, int alert)
 
 char **split_line(char *line, int alert)
 {
-	char *token = NULL, *tmp = NULL, **tokens = NULL, delimiter[] = " \n\t";
+	char *token = NULL, *temporary = NULL, **tokens = NULL, delimiter[] = " \n\t";
 	int token_count = 0, count = 0;
 	(void)alert;
 	if (!line)
 		return (NULL);
 
-	tmp = strdup(line);
-	token = strtok(tmp, delimiter);
+	temporary = _strdup(line);
+	token = strtok(temporary, delimiter);
 	if (token == NULL)
 	{
-		free(line), line = NULL;
-		free(tmp), tmp = NULL;
+		free(line);
+		free(temporary);
 		return (NULL);
 	}
 
@@ -53,19 +53,19 @@ char **split_line(char *line, int alert)
 		count++;
 		token = strtok(NULL, delimiter);
 	}
-	free(tmp), tmp = NULL;
+	free(temporary);
 
 	tokens = (char **)malloc(sizeof(char *) * (count + 1)); /* ALLOCATING MEMORY TO ARRAY OF pointers */
 	if (tokens == NULL)
 	{
-		free(line), line = NULL;
+		free(line);
 		return (NULL);
 	}
 
 	token = strtok(line, delimiter);
 	while (token)
 	{
-		tokens[token_count++] = strdup(token);
+		tokens[token_count++] = _strdup(token);
 		token = strtok(NULL, delimiter);
 	}
 
@@ -77,7 +77,7 @@ int check_empty(char *arg)
 	size_t longueur;
 	int alert = 0;
 	int j;
-	longueur = strlen(arg);
+	longueur = _strlen(arg);
 	if (longueur > 0 && arg[longueur - 1] == '\n')
 	{
 		arg[longueur - 1] = '\0';

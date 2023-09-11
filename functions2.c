@@ -70,3 +70,32 @@ int _strncmp(char *s1, char *s2, int n)
 	}
 	return (sus);
 }
+/**
+ * _strlen - return the legnth of a string
+ *
+ * @s: pointer
+ *
+ * Return: return len
+ */
+int _strlen(char *s)
+{
+	int len = 0;
+
+	while (*s)
+	{
+		len++;
+		s++;
+	}
+	return (len);
+}
+/**
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
+}

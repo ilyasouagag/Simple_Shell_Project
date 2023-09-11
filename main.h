@@ -17,4 +17,6 @@ void free_2D(char **grid);
 int execution(char **arguments, char *line, int alert);
 char **split_line(char *line, int alert);
 int check_empty(char *arg);
+int _putchar(char c);
 #endif
+
