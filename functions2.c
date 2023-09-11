@@ -32,7 +32,7 @@ char *_strdup(char *str)
 	return (array);
 }
 /**
- * free_grid - function that returns a pointer to a 2 D array
+ * free_2D - function that returns a pointer to a 2 D array
  * @grid: pointer to matrix
  * Return: return null
  */

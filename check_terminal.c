@@ -1,5 +1,11 @@
 #include "main.h"
-
+/**
+ * execution - execute the code in process child
+ * @arguments: arguments to execute
+ * @entry: input line
+ * @alert: parameter to separate interative and non-interactive
+ * Return: return status
+*/
 int execution(char **arguments, char *entry, int alert)
 {
 	int status = 0, pid = 1;
@@ -30,7 +36,12 @@ int execution(char **arguments, char *entry, int alert)
 	}
 	return (status);
 }
-
+/**
+ * split_line - function that return arguments whithout delimiter
+ * @line: entry input
+ * @alert: parameter to separate interative and non-interactive
+ * Return: return arguments in an array without delimiter
+*/
 char **split_line(char *line, int alert)
 {
 	char *token = NULL, *temporary = NULL, **tokens = NULL, delimiter[] = " \n\t";
@@ -55,7 +66,7 @@ char **split_line(char *line, int alert)
 	}
 	free(temporary);
 
-	tokens = (char **)malloc(sizeof(char *) * (count + 1)); /* ALLOCATING MEMORY TO ARRAY OF pointers */
+	tokens = (char **)malloc(sizeof(char *) * (count + 1));
 	if (tokens == NULL)
 	{
 		free(line);
@@ -72,11 +83,16 @@ char **split_line(char *line, int alert)
 	tokens[token_count] = NULL;
 	return (tokens);
 }
+/**
+ * check_empty - check if entry is empty in non interactive mode
+ * @arg: entry line
+ * Return: return 0 if entry is empty
+*/
 int check_empty(char *arg)
 {
 	size_t longueur;
-	int alert = 0;
-	int j;
+	int alert = 0, j;
+
 	longueur = _strlen(arg);
 	if (longueur > 0 && arg[longueur - 1] == '\n')
 	{
