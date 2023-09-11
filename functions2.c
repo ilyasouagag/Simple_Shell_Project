@@ -34,15 +34,16 @@ char *_strdup(char *str)
 /**
  * free_grid - function that returns a pointer to a 2 D array
  * @grid: pointer to matrix
- * @height: height of matrix
  * Return: return null
  */
-void free_grid(int **grid, int height)
+void free_grid(char **grid)
 {
-	int k;
+	int k, height = 0;
 
-	if (grid == NULL || height == 0)
+	if (grid == NULL)
 		return;
+	while (grid[height])
+		height++;
 	for (k = 0; k <= height; k++)
 		free(grid[k]);
 	free(grid);

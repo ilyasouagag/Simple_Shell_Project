@@ -12,5 +12,5 @@ char *str_concat(char *s1, char *s2);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 char *_strdup(char *str);
-void free_grid(int **grid, int height);
+void free_grid(char **grid);
 #endif
