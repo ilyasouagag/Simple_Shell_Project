@@ -36,7 +36,7 @@ char *_strdup(char *str)
  * @grid: pointer to matrix
  * Return: return null
  */
-void free_grid(char **grid)
+void free_2D(char **grid)
 {
 	int k, height = 0;
 

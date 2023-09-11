@@ -6,113 +6,45 @@
  * @env: environments
  * Return: return 0
  */
-extern char **environ;
-int main(void)
+int main(int argc, char **argv)
 {
-	ssize_t scan;
+	char *line = NULL, **arguments = NULL, pipe_input[1024];
 	size_t len = 0;
-	char *entry = NULL;
-	char *arguments[2];
-	int j, alert = 0;
-	int k = 0, count = 0;
-	pid_t pid;
-	char *token = NULL;
-	char *temp = NULL;
-	char **tokens = NULL;
-	int status = 0;
+	ssize_t lenght = 0;
+	ssize_t scan = 0;
+	int status = 0, alert = 0, j;
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
-		if (!isatty(STDIN_FILENO))
+		if (isatty(STDIN_FILENO))
 		{
-			while (fgets(entry, sizeof(entry), stdin))
+			printf("$ ");
+			lenght = getline(&line, &len, stdin); /* Memory allocated for line */
+			if (lenght == -1)
 			{
-				for (j = 0; entry[j] != '\0'; j++)
-				{
-					if (entry[j] != 32)
-					{
-						alert = 1;
-						break;
-					}
-				}
-				if (alert == 0)
-				{
-					free(entry);
-					return 0;
-				}
-
-				if (_strncmp(entry, "exit", 4) == 0)
-				{
-					free(entry);
-					break;
-				}
-				temp = strdup(entry);
-				token = strtok(temp, " \t\n");
-				if (token == NULL)
-				{
-					free(entry);
-					free(temp);
-					return (0);
-				}
-				while (token != NULL)
-				{
-					count++;
-					token = strtok(NULL, " \t\n");
-				}
-				free(temp);
-				tokens = (char **)malloc(sizeof(char *) * (count + 1));
-				if (!tokens)
-				{
-					free(entry);
-					exit(EXIT_FAILURE);
-				}
-				token = strtok(entry, " \t\n");
-				while (token)
-				{
-					tokens[k] = strdup(token);
-					token = strtok(NULL, " \t\n");
-					k++;
-				}
-				tokens[k] = NULL;
-
-				pid = fork();
-				if (pid == -1)
-				{
-					perror("fork");
-					free_grid(tokens);
-					exit(EXIT_FAILURE);
-				}
-				if (pid == 0)
-				{
-					if (execve(tokens[0], tokens, environ) == -1)
-					{
-						perror("./shell");
-						free_grid(tokens);
-						exit(EXIT_FAILURE);
-					}
-				}
-				else
-				{
-					waitpid(pid, &status, 0);
-					free_grid(tokens);
-				}
+				free(line), line = NULL; /* FREE ALLOCATED FOR LINE */
+				putchar('\n');
+				return (status);
 			}
-		}
-		else if (isatty(STDIN_FILENO))
-		{
-			write(1, ":)", 2);
-			fflush(stdout);
+			line[lenght - 1] = '\0';
 
-			scan = getline(&entry, &len, stdin);
+			arguments = split_line(line, 1); /* MEMORY TO BE FREED */
+			status = execution(arguments, line, 1);
+		}
+		else if (isatty(STDIN_FILENO) == 0)
+		{
+			scan = getline(&line, &len, stdin); /* Memory allocated for line */
 			if (scan == -1)
 			{
-				free(entry);
-				exit(0);
+				free(line), line = NULL; /* FREE ALLOCATED FOR LINE */
+				putchar('\n');
+				return (status);
 			}
-			entry[scan - 1] = '\0';
-			for (j = 0; entry[j] != '\0'; j++)
+			for (j = 0; line[j] != '\0'; j++)
 			{
-				if (entry[j] != 32)
+				if (line[j] != 32)
 				{
 					alert = 1;
 					break;
@@ -120,37 +52,18 @@ int main(void)
 			}
 			if (alert == 0)
 			{
-				free(entry);
+				free(line);
 				return 0;
 			}
-
-			if (_strncmp(entry, "exit", 4) == 0)
+			while (fgets(pipe_input, sizeof(pipe_input), stdin)) /* DOESN'T ALLOCATE THE MEMORY */
 			{
-				free(entry);
-				break;
+				arguments = split_line(pipe_input, 0);
+				status = execution(arguments, pipe_input, 0);
 			}
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("fork");
-				exit(EXIT_FAILURE);
-			}
-			if (pid == 0)
-			{
-				arguments[0] = entry;
-				arguments[1] = NULL;
-				if (execve(entry, arguments, environ) == -1)
-				{
-					perror("./shell");
-					free(entry);
-					exit(EXIT_FAILURE);
-				}
-				else
-					exit(0);
-			}
-			else
-				wait(NULL);
+			return (0);
 		}
+		else
+			exit(EXIT_FAILURE);
 	}
 	return (0);
 }
