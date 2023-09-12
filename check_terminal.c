@@ -38,7 +38,7 @@ int execution(char **arguments, char *entry, int alert, int index)
 			if (alert)
 				free(entry);
 			free_2D(arguments);
-			return (1);
+			exit(127);
 		}
 	}
 	else

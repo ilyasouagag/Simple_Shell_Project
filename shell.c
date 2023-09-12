@@ -31,8 +31,6 @@ int main(int argc, char **argv)
 			line[lenght - 1] = '\0';
 			arguments = split_line(entry, 1); /* MEMORY TO BE FREED */
 			status = execution(arguments, entry, 1, index);
-			if (status == 1)
-					exit(127);
 		}
 		else if (!isatty(STDIN_FILENO))
 		{
@@ -47,10 +45,8 @@ int main(int argc, char **argv)
 				}
 				arguments = split_line(line, 0);
 				status = execution(arguments, line, 0, index);
-				if (status == 1)
-						exit(127);
 			}
-			return (0);
+			return (status);
 		}
 		else
 			exit(EXIT_FAILURE);
