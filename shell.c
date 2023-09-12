@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 	char *entry = NULL, **arguments = NULL, line[1024];
 	size_t len = 0;
 	ssize_t lenght = 0;
-	int check, status = 0, index = 0;
+	int check, status = 0, index = 0, count = 0;
 	(void)argc;
 	(void)argv;
 
@@ -29,13 +29,25 @@ int main(int argc, char **argv)
 				return (status);
 			}
 			line[lenght - 1] = '\0';
-			arguments = split_line(entry, 1); /* MEMORY TO BE FREED */
-			status = execution(arguments, entry, 1, index);
+			arguments = split_line(entry, 1);
+			if (_strncmp(arguments[0], "exit", 4) == 0)
+			{
+				free_2D(arguments);
+				return (0);
+			}
+			if (path(arguments) == 1)
+				status = execution(arguments, line, 1);
+			else
+			{
+				fprintf(stderr, "./hsh: %d: %s: not found\n", index, arguments[0]);
+				free_2D(arguments);
+			}
 		}
 		else if (!isatty(STDIN_FILENO))
 		{
 			while (fgets(line, sizeof(line), stdin)) /* DOESN'T ALLOCATE THE MEMORY */
 			{
+				count++;
 				check = check_empty(line);
 				if (!check)
 					continue;
@@ -44,7 +56,21 @@ int main(int argc, char **argv)
 					return (status);
 				}
 				arguments = split_line(line, 0);
-				status = execution(arguments, line, 0, index);
+				if (_strncmp(arguments[0], "exit", 4) == 0)
+				{
+					free_2D(arguments);
+					if (count > 1)
+						status = 2;
+					return (status);
+				}
+				if (path(arguments) == 1)
+					status = execution(arguments, line, 0);
+				else
+				{
+					fprintf(stderr, "./hsh: %d: %s: not found\n", index, arguments[0]);
+					free_2D(arguments);
+					exit(127);
+				}
 			}
 			return (status);
 		}

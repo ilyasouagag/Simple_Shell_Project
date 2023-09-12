@@ -6,7 +6,7 @@
  * @alert: parameter to separate interative and non-interactive
  * Return: return status
  */
-int execution(char **arguments, char *entry, int alert, int index)
+int execution(char **arguments, char *entry, int alert)
 {
 	int status = 0, pid = 1;
 
@@ -19,28 +19,16 @@ int execution(char **arguments, char *entry, int alert, int index)
 	}
 	if (pid == 0)
 	{
-		char *fullPath = path(arguments[0]);
-		if (fullPath != NULL)
+		if (execve(arguments[0], arguments, environ) == -1)
 		{
-			if (execve(fullPath, arguments, environ) == -1)
-			{
-				perror("./shell");
-				if (alert)
-					free(entry);
-				free_2D(arguments);
-				exit(EXIT_FAILURE);
-			}
-			free(fullPath);
-		}
-		else
-		{
-			fprintf(stderr, "./hsh: %d: %s: not found\n", index, arguments[0]);
+			perror("./shell");
 			if (alert)
 				free(entry);
 			free_2D(arguments);
-			exit(127);
+			exit(EXIT_FAILURE);
 		}
 	}
+
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -121,32 +109,40 @@ int check_empty(char *arg)
 	}
 	return (alert);
 }
-char *path(char *arguments)
+int path(char **arguments)
 {
-	char *env;
-	char *token;
-	char *tmp;
-	char *dup;
-	if (access(arguments, X_OK) == 0)
+	char *env = NULL, *token = NULL, *tmp = NULL, *dup;
+	if (access(arguments[0], X_OK) == 0)
 	{
-		return (arguments);
+		return (1);
+	}
+	if (_strncmp(arguments[0], "env", 3) == 0)
+	{
+		free(arguments[0]);
+		arguments[0] = _strdup("/usr/bin/env");
+		return (1);
 	}
 	env = getenv("PATH");
 	if (!env)
-		return (NULL);
+		return (0);
 	dup = _strdup(env);
 	token = strtok(dup, ":");
 	while (token)
 	{
-		tmp = str_concat(token, arguments);
+		tmp = str_concat(token, arguments[0]);
+		if (!tmp)
+			return (1);
 		if (access(tmp, X_OK) == 0)
 		{
+			free(arguments[0]);
+			arguments[0] = _strdup(tmp);
 			free(dup);
-			return (tmp);
+			free(tmp);
+			return (1);
 		}
 		free(tmp);
 		token = strtok(NULL, ":");
 	}
 	free(dup);
-	return (NULL);
+	return (0);
 }

@@ -15,10 +15,10 @@ int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 char *_strdup(char *str);
 void free_2D(char **grid);
-int execution(char **arguments, char *line, int alert,int index);
+int execution(char **arguments, char *entry, int alert);
 char **split_line(char *line, int alert);
 int check_empty(char *arg);
 int _putchar(char c);
-char *path(char *arguments);
+int path(char **arguments);
 #endif
 
