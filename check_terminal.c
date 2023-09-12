@@ -5,8 +5,8 @@
  * @entry: input line
  * @alert: parameter to separate interative and non-interactive
  * Return: return status
-*/
-int execution(char **arguments, char *entry, int alert)
+ */
+int execution(char **arguments, char *entry, int alert, int index)
 {
 	int status = 0, pid = 1;
 
@@ -19,14 +19,26 @@ int execution(char **arguments, char *entry, int alert)
 	}
 	if (pid == 0)
 	{
-		if (execve(arguments[0], arguments, environ) == -1)
+		char *fullPath = path(arguments[0]);
+		if (fullPath != NULL)
 		{
-			perror("./shell");
+			if (execve(fullPath, arguments, environ) == -1)
+			{
+				perror("./shell");
+				if (alert)
+					free(entry);
+				free_2D(arguments);
+				exit(EXIT_FAILURE);
+			}
+			free(fullPath);
+		}
+		else
+		{
+			fprintf(stderr, "./hsh: %d: %s: not found\n", index, arguments[0]);
 			if (alert)
 				free(entry);
-
 			free_2D(arguments);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 	}
 	else
@@ -41,7 +53,7 @@ int execution(char **arguments, char *entry, int alert)
  * @line: entry input
  * @alert: parameter to separate interative and non-interactive
  * Return: return arguments in an array without delimiter
-*/
+ */
 char **split_line(char *line, int alert)
 {
 	char *token = NULL, *temporary = NULL, **tokens = NULL, delimiter[] = " \n\t";
@@ -87,7 +99,7 @@ char **split_line(char *line, int alert)
  * check_empty - check if entry is empty in non interactive mode
  * @arg: entry line
  * Return: return 0 if entry is empty
-*/
+ */
 int check_empty(char *arg)
 {
 	size_t longueur;
@@ -108,4 +120,33 @@ int check_empty(char *arg)
 		}
 	}
 	return (alert);
+}
+char *path(char *arguments)
+{
+	char *env;
+	char *token;
+	char *tmp;
+	char *dup;
+	if (access(arguments, X_OK) == 0)
+	{
+		return (arguments);
+	}
+	env = getenv("PATH");
+	if (!env)
+		return (NULL);
+	dup = _strdup(env);
+	token = strtok(dup, ":");
+	while (token)
+	{
+		tmp = str_concat(token, arguments);
+		if (access(tmp, X_OK) == 0)
+		{
+			free(dup);
+			return (tmp);
+		}
+		free(tmp);
+		token = strtok(NULL, ":");
+	}
+	free(dup);
+	return (NULL);
 }

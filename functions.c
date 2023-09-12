@@ -26,7 +26,7 @@ char *_strcpy(char *dest, char *src)
  * @s2: string number 2
  * Return: return array
  */
-char *str_concat(char *s1, char *s2)
+char *concat(char *s1, char *s2)
 {
 	unsigned int len1 = 0, len2 = 0, i = 0, j = 0;
 	char *s3;
@@ -80,4 +80,29 @@ int _strcmp(char *s1, char *s2)
 		}
 	}
 	return (sus);
+}
+char *str_concat(char *s1, char *s2)
+{
+	int len1 = 0, len2 = 0;
+	char *conct;
+
+	if (s1 != NULL)
+		len1 = _strlen(s1);
+	if (s2 != NULL)
+		len2 = _strlen(s2);
+
+	conct = (char *)malloc(len1 + len2 + 2);
+	if (conct == NULL)
+		return (NULL);
+
+	if (s1 != NULL)
+		conct = _strcpy(conct, s1);
+
+	if (len1 > 0 && len2 > 0)
+		conct = concat(conct, "/");
+
+	if (s2 != NULL)
+		conct = concat(conct, s2);
+
+	return (conct);
 }

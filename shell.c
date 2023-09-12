@@ -11,25 +11,28 @@ int main(int argc, char **argv)
 	char *entry = NULL, **arguments = NULL, line[1024];
 	size_t len = 0;
 	ssize_t lenght = 0;
-	int check, status = 0;
+	int check, status = 0, index = 0;
 	(void)argc;
 	(void)argv;
 
 	while (1)
 	{
+		index++;
 		if (isatty(STDIN_FILENO))
 		{
 			printf("$ ");
 			lenght = getline(&entry, &len, stdin); /* Memory allocated for line */
 			if (lenght == -1)
 			{
-				free(entry);/* FREE ALLOCATED FOR LINE */
+				free(entry); /* FREE ALLOCATED FOR LINE */
 				_putchar('\n');
 				return (status);
 			}
 			line[lenght - 1] = '\0';
 			arguments = split_line(entry, 1); /* MEMORY TO BE FREED */
-			status = execution(arguments, entry, 1);
+			status = execution(arguments, entry, 1, index);
+			if (status == 1)
+					exit(127);
 		}
 		else if (!isatty(STDIN_FILENO))
 		{
@@ -43,7 +46,9 @@ int main(int argc, char **argv)
 					return (status);
 				}
 				arguments = split_line(line, 0);
-				status = execution(arguments, line, 0);
+				status = execution(arguments, line, 0, index);
+				if (status == 1)
+						exit(127);
 			}
 			return (0);
 		}
