@@ -1,7 +1,2 @@
 #!/bin/bash
-echo "                        ls 
-/bin/ls                
-
-                                   ls 
-
-/bin/ls               " | ./hsh 
+echo "ls " | ./hsh 

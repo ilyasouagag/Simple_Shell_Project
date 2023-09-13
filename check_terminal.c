@@ -46,7 +46,6 @@ char **split_line(char *line, int alert)
 {
 	char *token = NULL, *temporary = NULL, **tokens = NULL, delimiter[] = " \n\t";
 	int token_count = 0, count = 0;
-	(void)alert;
 	if (!line)
 		return (NULL);
 
@@ -54,7 +53,8 @@ char **split_line(char *line, int alert)
 	token = strtok(temporary, delimiter);
 	if (token == NULL)
 	{
-		free(line);
+		if (alert == 1)
+			free(line);
 		free(temporary);
 		return (NULL);
 	}
@@ -69,7 +69,8 @@ char **split_line(char *line, int alert)
 	tokens = (char **)malloc(sizeof(char *) * (count + 1));
 	if (tokens == NULL)
 	{
-		free(line);
+		if (alert == 1)
+			free(line);
 		return (NULL);
 	}
 
@@ -127,11 +128,13 @@ int path(char **arguments)
 		return (0);
 	dup = _strdup(env);
 	token = strtok(dup, ":");
+	if (!token)
+		return (0);
 	while (token)
 	{
 		tmp = str_concat(token, arguments[0]);
 		if (!tmp)
-			return (1);
+			return (0);
 		if (access(tmp, X_OK) == 0)
 		{
 			free(arguments[0]);

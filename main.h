@@ -6,11 +6,12 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <dirent.h>
 extern char **environ;
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 char *str_concat(char *s1, char *s2);
-char *concat(char *s1, char *s2);
+char *my_strcat(char *s1, const char *s2);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 char *_strdup(char *str);
@@ -21,4 +22,3 @@ int check_empty(char *arg);
 int _putchar(char c);
 int path(char **arguments);
 #endif
-

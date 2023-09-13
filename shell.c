@@ -29,10 +29,12 @@ int main(int argc, char **argv)
 				return (status);
 			}
 			line[lenght - 1] = '\0';
+			check = check_empty(entry);
+			if (!check)
+				continue;
 			arguments = split_line(entry, 1);
 			if (_strncmp(arguments[0], "exit", 4) == 0)
 			{
-				free(entry);
 				free_2D(arguments);
 				return (0);
 			}

@@ -1,62 +1,47 @@
 #include "main.h"
 /**
- * _strcpy - copies the string from src to dest
+ * _strcpy - copies the string from s2 to s1
  *
- * @dest: destination
+ * @s1: s1
  *
- * @src: source
+ * @s2: s2
  *
  * Return: return the value
  */
-char *_strcpy(char *dest, char *src)
+char *_strcpy(char *s1, char *s2)
 {
 	int i = 0;
 
-	while (src[i] != '\0')
+	while (s2[i] != '\0')
 	{
-		dest[i] = src[i];
+		s1[i] = s2[i];
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	s1[i] = '\0';
+	return (s1);
 }
 /**
- * str_concat - function that concatenates two strings
+ * my_strcat - function that concatenates two strings
  * @s1: string number 1
  * @s2: string number 2
  * Return: return array
  */
-char *concat(char *s1, char *s2)
+char *my_strcat(char *s1, const char *s2)
 {
-	unsigned int len1 = 0, len2 = 0, i = 0, j = 0;
-	char *s3;
+	char *s3 = s1;
 
-	while (s1 && s1[len1] != 0)
-		len1++;
-	while (s2 && s2[len2] != 0)
-		len2++;
-	s3 = (char *)malloc((sizeof(char)) * (len1 + len2 + 1));
-	if (s3 == NULL)
-		return (NULL);
-	if (s1 != NULL)
+	while (*s3 != '\0')
 	{
-		while (s1[i] != 0)
-		{
-			s3[i] = s1[i];
-			i++;
-		}
+		s3++;
 	}
-	if (s2 != NULL)
+	while (*s2 != '\0')
 	{
-		while (s2[j] != 0)
-		{
-			s3[i + j] = s2[j];
-			j++;
-		}
+		*s3 = *s2;
+		s3++;
+		s2++;
 	}
-	s3[len1 + len2] = '\0';
-
-	return (s3);
+	*s3 = '\0';
+	return (s1);
 }
 /**
  * _strcmp - function that compares two strings
@@ -87,9 +72,9 @@ char *str_concat(char *s1, char *s2)
 	char *conct;
 
 	if (s1 != NULL)
-		len1 = _strlen(s1);
+		len1 = strlen(s1);
 	if (s2 != NULL)
-		len2 = _strlen(s2);
+		len2 = strlen(s2);
 
 	conct = (char *)malloc(len1 + len2 + 2);
 	if (conct == NULL)
@@ -99,10 +84,9 @@ char *str_concat(char *s1, char *s2)
 		conct = _strcpy(conct, s1);
 
 	if (len1 > 0 && len2 > 0)
-		conct = concat(conct, "/");
+		conct = my_strcat(conct, "/");
 
 	if (s2 != NULL)
-		conct = concat(conct, s2);
-
+		conct = my_strcat(conct, s2);
 	return (conct);
 }
