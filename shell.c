@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 			arguments = split_line(entry, 1);
 			if (_strncmp(arguments[0], "exit", 4) == 0)
 			{
+				free(entry);
 				free_2D(arguments);
 				return (0);
 			}
@@ -51,10 +52,6 @@ int main(int argc, char **argv)
 				check = check_empty(line);
 				if (!check)
 					continue;
-				if (_strncmp(line, "exit", 4) == 0)
-				{
-					return (status);
-				}
 				arguments = split_line(line, 0);
 				if (_strncmp(arguments[0], "exit", 4) == 0)
 				{
