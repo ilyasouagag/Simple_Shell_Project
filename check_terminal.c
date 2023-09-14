@@ -50,7 +50,7 @@ char **split_line(char *line, int alert)
 		return (NULL);
 
 	temporary = _strdup(line);
-	token = strtok(temporary, delimiter);
+	token =_strtok(temporary, delimiter);
 	if (token == NULL)
 	{
 		if (alert == 1)
@@ -62,7 +62,7 @@ char **split_line(char *line, int alert)
 	while (token != NULL) /* COUNT THE NUMBER OF WORDS */
 	{
 		count++;
-		token = strtok(NULL, delimiter);
+		token =_strtok(NULL, delimiter);
 	}
 	free(temporary);
 
@@ -74,11 +74,11 @@ char **split_line(char *line, int alert)
 		return (NULL);
 	}
 
-	token = strtok(line, delimiter);
+	token =_strtok(line, delimiter);
 	while (token)
 	{
 		tokens[token_count++] = _strdup(token);
-		token = strtok(NULL, delimiter);
+		token =_strtok(NULL, delimiter);
 	}
 
 	tokens[token_count] = NULL;
@@ -127,7 +127,7 @@ int path(char **arguments)
 	if (!env)
 		return (0);
 	dup = _strdup(env);
-	token = strtok(dup, ":");
+	token =_strtok(dup, ":");
 	if (!token)
 		return (0);
 	while (token)
@@ -144,7 +144,7 @@ int path(char **arguments)
 			return (1);
 		}
 		free(tmp);
-		token = strtok(NULL, ":");
+		token =_strtok(NULL, ":");
 	}
 	free(dup);
 	return (0);
