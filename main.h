@@ -21,4 +21,6 @@ char **split_line(char *line, int alert);
 int check_empty(char *arg);
 int _putchar(char c);
 int path(char **arguments);
+char *_strtok(char *str, const char *delimiters);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 #endif
