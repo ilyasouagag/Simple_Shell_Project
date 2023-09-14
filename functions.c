@@ -90,3 +90,48 @@ char *str_concat(char *s1, char *s2)
 		conct = my_strcat(conct, s2);
 	return (conct);
 }
+/**
+ * _strtok - function takes a string str and a set of delimiters as input
+ *
+ * @str:string
+ * @delimiters: string
+ *
+ * Return: return  the next token in the string
+ */
+
+char *_strtok(char *str, const char *delimiters)
+{
+    static char *token;
+
+    if (str != NULL) {
+        token = str;
+    } else if (token == NULL) {
+        return NULL;
+    }
+
+    char *result = token;
+	const char *d;
+    while (*token != '\0') {
+        int isDelimiter = 0;
+
+       
+        for (d = delimiters; *d != '\0'; d++) {
+            if (*token == *d) {
+                isDelimiter = 1;
+                break;
+            }
+        }
+
+        if (isDelimiter) {
+            *token = '\0'; 
+            token++;      
+            return result; 
+        }
+
+        token++;
+    }
+
+ token = NULL;
+
+    return result;
+}
