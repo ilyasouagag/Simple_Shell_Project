@@ -123,7 +123,7 @@ int path(char **arguments)
 		arguments[0] = _strdup("/usr/bin/env");
 		return (1);
 	}
-	env = getenv("PATH");
+	env = _getenv("PATH");
 	if (!env)
 		return (0);
 	dup = _strdup(env);
