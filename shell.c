@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 		index++;
 		if (isatty(STDIN_FILENO))
 		{
-			printf("$ ");
+			write(1,"$ ",2);
 			lenght = _getline(&entry, &len, stdin); /* Memory allocated for line */
 			if (lenght == -1)
 			{

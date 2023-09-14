@@ -98,41 +98,13 @@ char *str_concat(char *s1, char *s2)
  *
  * Return: return  the next token in the string
  */
-
-char *_strtok(char *str, const char *delimiters)
+char *custom_strchr(const char *str, int character)
 {
-    static char *token;
-	char *result;
-	const char *d;
-    if (str != NULL) {
-        token = str;
-    } else if (token == NULL) {
-        return NULL;
+    while (*str)
+    {
+        if (*str == character)
+            return (char *)str;
+        str++;
     }
-
-    result = token;
-	
-    while (*token != '\0') {
-        int isDelimiter = 0;
-
-       
-        for (d = delimiters; *d != '\0'; d++) {
-            if (*token == *d) {
-                isDelimiter = 1;
-                break;
-            }
-        }
-
-        if (isDelimiter) {
-            *token = '\0'; 
-            token++;      
-            return result; 
-        }
-
-        token++;
-    }
-
- token = NULL;
-
-    return result;
+    return NULL;
 }
