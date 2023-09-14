@@ -102,15 +102,16 @@ char *str_concat(char *s1, char *s2)
 char *_strtok(char *str, const char *delimiters)
 {
     static char *token;
-
+	char *result;
+	const char *d;
     if (str != NULL) {
         token = str;
     } else if (token == NULL) {
         return NULL;
     }
 
-    char *result = token;
-	const char *d;
+    result = token;
+	
     while (*token != '\0') {
         int isDelimiter = 0;
 

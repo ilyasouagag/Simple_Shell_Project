@@ -22,5 +22,7 @@ int check_empty(char *arg);
 int _putchar(char c);
 int path(char **arguments);
 char *_strtok(char *str, const char *delimiters);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void line_buffer(char **lineptr, size_t *n, char *buffer, size_t b);
 #endif

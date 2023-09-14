@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 		if (isatty(STDIN_FILENO))
 		{
 			printf("$ ");
-			lenght = getline(&entry, &len, stdin); /* Memory allocated for line */
+			lenght = _getline(&entry, &len, stdin); /* Memory allocated for line */
 			if (lenght == -1)
 			{
 				free(entry); /* FREE ALLOCATED FOR LINE */
