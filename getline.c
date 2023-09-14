@@ -146,3 +146,21 @@ char *STRTOK(char *str, const char *delim)
 
     return token_start;
 }
+void ippid_string(int num, char *str)
+{
+    static int index = 0;
+
+    if (num == 0)
+    {
+        str[index] = '\0';
+        return;
+    }
+    if (num < 0)
+    {
+        str[index++] = '-';
+        num = -num;
+    }
+    ippid_string(num / 10, str);
+
+    str[index++] = num % 10 + '0';
+}

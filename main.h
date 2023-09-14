@@ -27,5 +27,5 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void line_buffer(char **lineptr, size_t *n, char *buffer, size_t b);
 char *_getenv( char *name);
-
+void ippid_string(int num, char *str);
 #endif
