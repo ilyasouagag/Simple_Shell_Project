@@ -149,3 +149,24 @@ int path(char **arguments)
 	free(dup);
 	return (0);
 }
+void _cd(char **arguments)
+{
+	char *dir = arguments[1];
+	int n;
+
+	if (dir == NULL)
+	{
+		dir = _getenv("HOME");
+		if (dir == NULL)
+		{
+			printf("cd: No HOME directory found\n");
+			return;
+		}
+	}
+
+	n = chdir(dir);
+	if (n == -1)
+	{
+		perror("cd");
+	}
+}
