@@ -38,129 +38,104 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	free(ptr);
 	return (ptr1);
 }
-/**
- * line_buffer - Reassigns the lineptr variable
- * @lineptr: A buffer to store an input string.
- * @n: The size of lineptr.
- * @buffer: The string to assign to lineptr.
- * @b: The size of buffer.
- */
-
-void line_buffer(char **lineptr, size_t *n, char *buffer, size_t b)
-{
-	if (*lineptr == NULL)
-	{
-		if (b > 100)
-			*n = b;
-		else
-			*n = 100;
-		*lineptr = buffer;
-	}
-	else if (*n < b)
-	{
-		if (b > 100)
-			*n = b;
-		else
-			*n = 100;
-		*lineptr = buffer;
-	}
-	else
-	{
-		_strcpy(*lineptr, buffer);
-		free(buffer);
-	}
-}
-
-/**
- * _getline - Reads input from a stream
- * @lineptr: to store the input
- * @n: The size
- * @stream: The stream to read from
- * Return: The number of bytes read
- */
-
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	static ssize_t input;
+	static size_t input = 0;
 	ssize_t ret;
-	char c = 'i', *buffer;
+	char c;
 	int r;
 
-	if (input == 0)
-		fflush(stream);
-	else
-		return (-1);
-	input = 0;
-	buffer = malloc(sizeof(char) * 120 + 1);
-	if (!buffer)
-		return (-1);
-	while (c != '\n')
+	if (*n == 0 || *lineptr == NULL)
 	{
-		r = read(STDIN_FILENO, &c, 1);
-		if (r == -1 || (r == 0 && input == 0))
+		*n = 120;
+		*lineptr = malloc(*n);
+		if (*lineptr == NULL)
+			return (-1);
+	}
+
+	input = 0;
+	while (1)
+	{
+		r = fread(&c, 1, 1, stream);
+		if (r < 0)
 		{
-			free(buffer);
+			free(*lineptr);
 			return (-1);
 		}
-		if (r == 0 && input != 0)
+		if (r == 0)
 		{
-			input++;
-			break;
+			if (input == 0)
+				return (-1);
+			else
+				break;
 		}
-		if (input >= 100)
-			buffer = _realloc(buffer, input, input + 1);
-		buffer[input] = c;
+		if (input >= *n - 1)
+		{
+			size_t new_size = (*n) * 2;
+			char *new_line = _realloc(*lineptr, *n, new_size);
+			if (new_line == NULL)
+			{
+				free(*lineptr);
+				return (-1);
+			}
+			*lineptr = new_line;
+			*n = new_size;
+		}
+		(*lineptr)[input] = c;
 		input++;
+		if (c == '\n')
+			break;
 	}
-	buffer[input] = '\0';
-	line_buffer(lineptr, n, buffer, input);
+
+	(*lineptr)[input] = '\0';
 	ret = input;
-	if (r != 0)
+	if (r != 1)
 		input = 0;
-	return (ret);
+
+	return ret;
 }
 char *STRTOK(char *str, const char *delim)
 {
-    static char *next_token = NULL;
-    char *token_start = NULL;
+	static char *next_token = NULL;
+	char *token_start = NULL;
 
-    if (str != NULL)
-        next_token = str;
+	if (str != NULL)
+		next_token = str;
+	
+	while (*next_token && custom_strchr(delim, *next_token))
+		next_token++;
 
-    while (*next_token && custom_strchr(delim, *next_token))
-        next_token++;
+	if (*next_token == '\0')
+		return NULL;
 
-    if (*next_token == '\0')
-        return NULL;
+	token_start = next_token;
 
-    token_start = next_token;
+	while (*next_token && !custom_strchr(delim, *next_token))
+		next_token++;
 
-    while (*next_token && !custom_strchr(delim, *next_token))
-        next_token++;
+	if (*next_token != '\0')
+	{
+		*next_token = '\0';
+		next_token++;
+	}
 
-    if (*next_token != '\0')
-    {
-        *next_token = '\0';
-        next_token++;
-    }
-
-    return token_start;
+	return token_start;
 }
 void ippid_string(int num, char *str)
 {
-    static int index = 0;
+	static int index = 0;
 
-    if (num == 0)
-    {
-        str[index] = '\0';
-        return;
-    }
-    if (num < 0)
-    {
-        str[index++] = '-';
-        num = -num;
-    }
-    ippid_string(num / 10, str);
+	if (num == 0)
+	{
+		str[index] = '\0';
+		return;
+	}
+	if (num < 0)
+	{
+		str[index++] = '-';
+		num = -num;
+	}
+	ippid_string(num / 10, str);
 
-    str[index++] = num % 10 + '0';
+	str[index++] = num % 10 + '0';
 }
