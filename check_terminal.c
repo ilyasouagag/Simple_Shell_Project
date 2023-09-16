@@ -149,10 +149,9 @@ int path(char **arguments)
 	free(dup);
 	return (0);
 }
-void _cd(char **arguments)
+int _cd(char **arguments)
 {
 	char *dir = arguments[1];
-	int n;
 
 	if (dir == NULL)
 	{
@@ -160,13 +159,13 @@ void _cd(char **arguments)
 		if (dir == NULL)
 		{
 			printf("cd: No HOME directory found\n");
-			return;
+			return (0);
 		}
 	}
 
-	n = chdir(dir);
-	if (n == -1)
+	if(chdir(dir) == 0)
 	{
-		perror("cd");
+		return (1);
 	}
+	return (0);
 }

@@ -39,6 +39,12 @@ int main(int argc, char **argv)
 				free_2D(arguments);
 				return (0);
 			}
+			if (_strcmp(arguments[0], "cd") == 0 && _cd(arguments) == 1)
+			{
+				free(entry);
+				free_2D(arguments);
+				continue;
+			}
 			if (path(arguments) == 1)
 				status = execution(arguments, line, 1);
 			else
@@ -49,8 +55,8 @@ int main(int argc, char **argv)
 		}
 		else if (!isatty(STDIN_FILENO))
 		{
-			while ((lenght = _getline(&line, &len, stdin)) != -1) 
-			{			
+			while ((lenght = _getline(&line, &len, stdin)) != -1)
+			{
 				count++;
 				line[lenght - 1] = '\0';
 				check = check_empty(line);
