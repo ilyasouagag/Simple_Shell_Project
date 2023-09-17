@@ -154,12 +154,13 @@ int _cd(char **arguments)
 	char *dir = arguments[1];
 	char pwd[1024];
 	int i , n;
+	char *message = "cd: No HOME directory found\n";
 	if (dir == NULL)
 	{
 		dir = _getenv("HOME");
 		if (dir == NULL)
 		{
-			printf("cd: No HOME directory found\n");
+			write(1, message, _strlen(message));
 			return (0);
 		}
 	}
