@@ -8,7 +8,7 @@
 int _setenv(char **args)
 {
 	char *name, *value;
-    char *msg1 = "Usage: setenv VARIABLE VALUE\n";
+    char *msg1 = "setenv VARIABLE VALUE\n";
 	if (args[1] == NULL || args[2] == NULL)
 	{
 		write(1, msg1, _strlen(msg1));
@@ -33,7 +33,7 @@ int _setenv(char **args)
 int _unsetenv(char **args)
 {
 	char *name;
-    char *msg2 = "Usage: unsetenv VARIABLE\n";
+    char *msg2 = "unsetenv VARIABLE\n";
 	if (args[1] == NULL)
 	{
 		write(1, msg2, _strlen(msg2));
