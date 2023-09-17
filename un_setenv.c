@@ -8,10 +8,10 @@
 int _setenv(char **args)
 {
 	char *name, *value;
-
+    char *msg1 = "Usage: setenv VARIABLE VALUE\n";
 	if (args[1] == NULL || args[2] == NULL)
 	{
-		_puterror("Usage: setenv VARIABLE VALUE\n");
+		write(1, msg1, _strlen(msg1));
 		return (-1);
 	}
 
@@ -20,7 +20,7 @@ int _setenv(char **args)
 
 	if (setenv(name, value, 1) != 0)
 	{
-		_puterror("setenv");
+		perror("setenv");
 		return (-1);
 	}
 	return (0);
