@@ -152,7 +152,8 @@ int path(char **arguments)
 int _cd(char **arguments)
 {
 	char *dir = arguments[1];
-
+	char pwd[1024];
+	int i , n;
 	if (dir == NULL)
 	{
 		dir = _getenv("HOME");
@@ -161,6 +162,20 @@ int _cd(char **arguments)
 			printf("cd: No HOME directory found\n");
 			return (0);
 		}
+	}
+	if(!_strcmp(dir, "-"))
+	{
+	if(getcwd(pwd, sizeof(pwd)) != NULL)
+	{
+		getcwd(pwd, sizeof(pwd));
+		n = _strlen(pwd);
+		for(i = 0; i < n; i++)
+		{
+			_putchar(pwd[i]);
+		}
+		_putchar('\n');
+	}
+	return (1);
 	}
 
 	if(chdir(dir) == 0)

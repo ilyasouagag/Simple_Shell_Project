@@ -41,7 +41,6 @@ int main(int argc, char **argv)
 			}
 			if (_strcmp(arguments[0], "cd") == 0 && _cd(arguments) == 1)
 			{
-				free(entry);
 				free_2D(arguments);
 				continue;
 			}
