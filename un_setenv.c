@@ -36,7 +36,7 @@ int _unsetenv(char **args)
     char *msg2 = "Usage: unsetenv VARIABLE\n";
 	if (args[1] == NULL)
 	{
-		
+		write(1, msg2, _strlen(msg2));
 		return (-1);
 	}
 
