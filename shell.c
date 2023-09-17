@@ -39,6 +39,16 @@ int main(int argc, char **argv)
 				free_2D(arguments);
 				return (0);
 			}
+			if(_strcmp(arguments[0], "setenv") == 0 && _setenv(arguments) == 0)
+			{
+				free_2D(arguments);
+				continue;
+			}
+			else if(_strcmp(arguments[0], "unsetenv") == 0 && _unsetenv(arguments) == 0)
+			{
+				free_2D(arguments);
+				continue;
+			}
 			if (_strcmp(arguments[0], "cd") == 0 && _cd(arguments) == 1)
 			{
 				free_2D(arguments);
