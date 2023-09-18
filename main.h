@@ -29,6 +29,12 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_getenv( char *name);
 void ippid_string(int num, char *str);
 int _cd(char **arguments);
-int _unsetenv(char *name);
-int _setenv(char *name, char *value, int n);
+int _unsetenv(const char *name);
+int _setenv(const char *name,const char *value, int overwrite);
+int _cstrcmp(const char *s1, const char *s2);
+int _cstrlen(const char *s);
+int _cstrncmp(const char *s1,const char *s2, int n);
+char *_cgetenv(const char *name);
+char *_cstrcpy( char *s1, const char *s2);
+
 #endif

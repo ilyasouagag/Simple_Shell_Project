@@ -7,7 +7,7 @@
  * @n: over write 
  * Return: 0/-1
  */
-int _setenv(char *name, char *value, int n) {
+int _setenv( const char *name, const char *value, int overwrite) {
 	size_t name_len;
 	size_t value_len;
 	size_t total_length;
@@ -18,23 +18,23 @@ int _setenv(char *name, char *value, int n) {
     if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL) {
         return -1;
     }
-    if (_getenv(name) != NULL && !n) {
+    if (_cgetenv(name) != NULL && !overwrite) {
         return 0;
     }
-     name_len = _strlen(name);
-     value_len = _strlen(value);
+     name_len = _cstrlen(name);
+     value_len = _cstrlen(value);
      total_length = name_len + 1 + value_len + 1; 
     env_var = (char *)malloc(total_length);
     if (env_var == NULL) {
         return -1;
     }
-    _strcpy(env_var, name);
+    _cstrcpy(env_var, name);
     env_var[name_len] = '=';
-    _strcpy(env_var + name_len + 1, value);
+    _cstrcpy(env_var + name_len + 1, value);
 	env_ptr = environ;
     while (*env_ptr != NULL) {
-        if (_strncmp(*env_ptr, name, name_len) == 0) {
-            if (n) {
+        if (_cstrncmp(*env_ptr, name, name_len) == 0) {
+            if (overwrite) {
                 *env_ptr = env_var;
             } else {
                 free(env_var);
@@ -59,7 +59,7 @@ int _setenv(char *name, char *value, int n) {
  * @name: Name
  * Return: 0/-1
  */
- int _unsetenv(char *name) {
+ int _unsetenv(const char *name) {
 	extern char **environ;
     char **env_ptr = environ;
     char **new_env = NULL;
@@ -70,7 +70,7 @@ int _setenv(char *name, char *value, int n) {
 	
 
     while (*env_ptr != NULL) {
-        if (_strncmp(*env_ptr, name, _strlen(name)) == 0 && (*env_ptr)[_strlen(name)] == '=') {
+        if (_cstrncmp(*env_ptr, name, _cstrlen(name)) == 0 && (*env_ptr)[_cstrlen(name)] == '=') {
             env_ptr++;
         } else {
             temp = (char **)_realloc(new_env, (env_ptr - environ + 2) * sizeof(char *),(env_ptr - environ + 2) * sizeof(char *));
