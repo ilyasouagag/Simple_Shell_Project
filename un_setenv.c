@@ -59,21 +59,36 @@ int _setenv(char *name, char *value, int n) {
  * @args: Args
  * Return: 0/-1
  */
-int _unsetenv(char **args)
-{
-	char *name;
-    char *msg2 = "unsetenv VARIABLE\n";
-	if (args[1] == NULL)
-	{
-		write(1, msg2, _strlen(msg2));
-		return (-1);
-	}
+char **environ;
+    char **env_ptr = environ;
+    char **new_env = NULL;
 
-	name = args[1];
+    // Find the environment variable with the specified name
+    while (*env_ptr != NULL) {
+        if (strncmp(*env_ptr, name, strlen(name)) == 0 && (*env_ptr)[strlen(name)] == '=') {
+            // Remove the matching variable by skipping it
+            env_ptr++;
+        } else {
+            // Copy non-matching variables to the new_env array
+            char **temp = (char **)realloc(new_env, (env_ptr - environ + 2) * sizeof(char *));
+            if (temp == NULL) {
+                // Memory reallocation failed
+                free(new_env);
+                return -1;
+            }
+            new_env = temp;
+            new_env[env_ptr - environ] = *env_ptr;
+            env_ptr++;
+        }
+    }
 
-	if (unsetenv(name) != 0)
-	{
-		perror("unsetenv");
-	}
-	return (0);
+    // Terminate the new_env array
+    if (new_env != NULL) {
+        new_env[env_ptr - environ] = NULL;
+    }
+
+    // Update the environ pointer to the new environment
+    environ = new_env;
+
+    return 0; // Success
 }
