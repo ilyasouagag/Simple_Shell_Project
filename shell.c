@@ -49,8 +49,12 @@ int main(int argc, char **argv)
 				free_2D(arguments);
 				continue;
 			}
-			if (_strcmp(arguments[0], "cd") == 0 && _cd(arguments) == 1)
+			if (_strcmp(arguments[0], "cd") == 0)
 			{
+				if(!_cd(arguments))
+				{
+					fprintf(stderr,"./hsh: %d: cd: can't cd to %s\n",index,arguments[1]);
+				}
 				free_2D(arguments);
 				continue;
 			}
@@ -80,6 +84,15 @@ int main(int argc, char **argv)
 					free(line);
 					return (status);
 				}
+					if (_strcmp(arguments[0], "cd") == 0)
+			{
+				if(!_cd(arguments))
+				{
+					fprintf(stderr,"./hsh: %d: cd: can't cd to %s\n",index,arguments[1]);
+				}
+				free_2D(arguments);
+				continue;
+			}
 				if (path(arguments) == 1)
 					status = execution(arguments, line, 0);
 				else
