@@ -15,6 +15,7 @@ char *my_strcat(char *s1, const char *s2);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 char *_strdup(char *str);
+char *_strchr(const char *str, int character);
 void free_2D(char **grid);
 int execution(char **arguments, char *entry,int alert);
 char **split_line(char *line, int alert);
@@ -29,6 +30,5 @@ char *_getenv( char *name);
 void ippid_string(int num, char *str);
 int _cd(char **arguments);
 int _unsetenv(char **args);
-int _setenv(char **args);
-
+int _setenv(char *name, char *value, int n);
 #endif
