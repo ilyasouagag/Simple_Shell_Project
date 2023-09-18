@@ -59,7 +59,11 @@ int _setenv(char *name, char *value, int n) {
  * @args: Args
  * Return: 0/-1
  */
-char **environ;
+ _unsetenv(const char *name) {
+    if (name == NULL || name[0] == '\0' || strchr(name, '=') != NULL) {
+        return -1; // Invalid variable name
+    }
+	extern char **environ;
     char **env_ptr = environ;
     char **new_env = NULL;
 
