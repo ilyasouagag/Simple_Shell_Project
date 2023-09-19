@@ -7,7 +7,7 @@
  * @n: over write
  * Return: 0/-1
  */
-int _setenv(const char *name, const char *value, int overwrite)
+int _setenv(char *name, char *value, int overwrite)
 {
     size_t name_len;
     size_t value_len;

@@ -33,12 +33,7 @@ int main(int argc, char **argv)
 			if (!check)
 				continue;
 			arguments = split_line(entry, 1);
-			if (_strncmp(arguments[0], "exit", 4) == 0)
-			{
-				free(entry);
-				free_2D(arguments);
-				return (0);
-			}
+			my_exit(arguments, count, entry);
 			/*if(_strcmp(arguments[0], "setenv") == 0 && _setenv(arguments) == 0)
 			{
 				free_2D(arguments);
@@ -77,14 +72,8 @@ int main(int argc, char **argv)
 				if (!check)
 					continue;
 				arguments = split_line(line, 0);
-				if (_strncmp(arguments[0], "exit", 4) == 0)
-				{
-					free_2D(arguments);
-					if (count > 1)
-						status = 2;
-					free(line);
-					return (status);
-				}
+				my_exit(arguments, count, line);
+				;
 				if (_strcmp(arguments[0], "cd") == 0)
 				{
 					if (!_cd(arguments))
