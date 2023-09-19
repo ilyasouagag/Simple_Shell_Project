@@ -6,14 +6,12 @@
  * @env: environments
  * Return: return 0
  */
-int main(int argc, char **argv)
+int main(void)
 {
 	char *entry = NULL, **arguments = NULL, *line = NULL;
 	size_t len = 0;
 	ssize_t lenght = 0;
 	int check, status = 0, index = 0, count = 0;
-	(void)argc;
-	(void)argv;
 
 	while (1)
 	{
@@ -21,10 +19,10 @@ int main(int argc, char **argv)
 		if (isatty(STDIN_FILENO))
 		{
 			write(1, "$ ", 2);
-			lenght = _getline(&entry, &len, stdin); /* Memory allocated for line */
+			lenght = _getline(&entry, &len, stdin); 
 			if (lenght == -1)
 			{
-				free(entry); /* FREE ALLOCATED FOR LINE */
+				free(entry);
 				_putchar('\n');
 				return (status);
 			}
