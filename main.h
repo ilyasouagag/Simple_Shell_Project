@@ -39,4 +39,6 @@ char *_cstrcpy( char *s1, const char *s2);
 void my_exit(char **arguments, int count, char *line);
 int check_digit(char *str);
 int check_letter(char *str);
+int read_input(char **entry, size_t *len);
+void exit_message(char ***arguments, char **line, int *index);
 #endif
