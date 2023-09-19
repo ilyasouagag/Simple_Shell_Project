@@ -46,6 +46,7 @@ char **split_line(char *line, int alert)
 {
 	char *token = NULL, *temporary = NULL, **tokens = NULL, delimiter[] = " \n\t";
 	int token_count = 0, count = 0;
+
 	if (!line)
 		return (NULL);
 
@@ -113,6 +114,7 @@ int check_empty(char *arg)
 int path(char **arguments)
 {
 	char *env = NULL, *token = NULL, *tmp = NULL, *dup;
+
 	if (access(arguments[0], X_OK) == 0)
 	{
 		return (1);
@@ -152,9 +154,7 @@ int path(char **arguments)
 int _cd(char **arguments)
 {
 	char *dir = arguments[1];
-	char pwd[1024];
-	int i, n;
-	char *previous = NULL;
+	char pwd[1024], *previous = NULL;
 
 	if (dir == NULL || _strcmp(dir, "~") == 0)
 	{
@@ -162,7 +162,7 @@ int _cd(char **arguments)
 		if (dir == NULL)
 		{
 			getcwd(pwd, sizeof(pwd));
-			return(1);
+			return (1);
 		}
 	}
 	if (_strcmp(dir, "-") == 0)
@@ -171,26 +171,11 @@ int _cd(char **arguments)
 		if (!previous)
 		{
 			getcwd(pwd, sizeof(pwd));
-			n = _strlen(pwd);
-			for (i = 0; i < n; i++)
-			{
-				_putchar(pwd[i]);
-			}
-			_putchar('\n');
+			print_array(pwd);
 			return (1);
 		}
-		if (chdir(previous) == 0)
-		{
-			getcwd(pwd, sizeof(pwd));
-			n = _strlen(pwd);
-			for (i = 0; i < n; i++)
-			{
-				_putchar(pwd[i]);
-			}
-			_putchar('\n');
-			unsetenv("OLDPWD");
+		if (handling(&previous, pwd, 1))
 			return (1);
-		}
 		return (0);
 	}
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
@@ -199,9 +184,30 @@ int _cd(char **arguments)
 		return (0);
 	}
 	setenv("OLDPWD", pwd, 1);
-	if (chdir(dir) == 0)
+	if (handling(&dir, pwd, 0))
+		return (1);
+	return (0);
+}
+void print_array(char *str)
+{
+	int n, i;
+	n = _strlen(str);
+	for (i = 0; i < n; i++)
+	{
+		_putchar(str[i]);
+	}
+	_putchar('\n');
+}
+int handling(char **dir, char *pwd, int alert)
+{
+	if (chdir(*dir) == 0)
 	{
 		getcwd(pwd, sizeof(pwd));
+		if (alert == 1)
+		{
+			print_array(pwd);
+			unsetenv("OLDPWD");
+		}
 		return (1);
 	}
 	return (0);

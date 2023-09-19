@@ -41,4 +41,6 @@ int check_digit(char *str);
 int check_letter(char *str);
 int read_input(char **entry, size_t *len);
 void exit_message(char ***arguments, char **line, int *index);
+void print_array(char *str);
+int handling(char **dir, char *pwd, int alert);
 #endif
