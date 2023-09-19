@@ -34,17 +34,6 @@ int main(int argc, char **argv)
 				continue;
 			arguments = split_line(entry, 1);
 			my_exit(arguments, count, entry);
-			/*if(_strcmp(arguments[0], "setenv") == 0 && _setenv(arguments) == 0)
-			{
-				free_2D(arguments);
-				continue;
-			}
-			else if(_strcmp(arguments[0], "unsetenv") == 0 && _unsetenv(arguments) == 0)
-			{
-				free_2D(arguments);
-				continue;
-			}
-			**/
 			if (_strcmp(arguments[0], "cd") == 0)
 			{
 				if (!_cd(arguments))
@@ -73,7 +62,6 @@ int main(int argc, char **argv)
 					continue;
 				arguments = split_line(line, 0);
 				my_exit(arguments, count, line);
-				;
 				if (_strcmp(arguments[0], "cd") == 0)
 				{
 					if (!_cd(arguments))
