@@ -154,34 +154,32 @@ int _cd(char **arguments)
 	char *dir = arguments[1];
 	char pwd[1024];
 	int i, n;
-	char* previous = NULL;
-	char *message = "cd: No HOME directory found\n";
+	char *previous = NULL;
 
-	if (dir == NULL || _strcmp(dir,"~") == 0)
+	if (dir == NULL || _strcmp(dir, "~") == 0)
 	{
-		dir = getenv("HOME");
+		dir = _getenv("HOME");
 		if (dir == NULL)
 		{
-			write(1, message, _strlen(message));
-			return (0);
+			getcwd(pwd, sizeof(pwd));
+			return(1);
 		}
-
 	}
 	if (_strcmp(dir, "-") == 0)
 	{
 		previous = getenv("OLDPWD");
 		if (!previous)
 		{
-			getcwd(pwd,sizeof(pwd));
+			getcwd(pwd, sizeof(pwd));
 			n = _strlen(pwd);
 			for (i = 0; i < n; i++)
 			{
 				_putchar(pwd[i]);
 			}
 			_putchar('\n');
-			return(1);
+			return (1);
 		}
-		if(chdir(previous) == 0)
+		if (chdir(previous) == 0)
 		{
 			getcwd(pwd, sizeof(pwd));
 			n = _strlen(pwd);
@@ -191,19 +189,19 @@ int _cd(char **arguments)
 			}
 			_putchar('\n');
 			unsetenv("OLDPWD");
-			return(1);
+			return (1);
 		}
 		return (0);
 	}
-	 if (getcwd(pwd, sizeof(pwd)) == NULL) 
-	 {
-        perror("getcwd");
-        return (0);
-    }
-    setenv("OLDPWD", pwd, 1);
+	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	{
+		perror("getcwd");
+		return (0);
+	}
+	setenv("OLDPWD", pwd, 1);
 	if (chdir(dir) == 0)
 	{
-		 getcwd(pwd, sizeof(pwd));
+		getcwd(pwd, sizeof(pwd));
 		return (1);
 	}
 	return (0);
