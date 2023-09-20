@@ -91,7 +91,8 @@ char *str_concat(char *s1, char *s2)
 	return (conct);
 }
 /**
- * _strchr - function
+ * _strchr - It is used to find 
+ * the first occurrence of a substring
  * @str: string
  * @character: stops if it encouter that char
  * Return: return string
