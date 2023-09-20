@@ -21,7 +21,6 @@ return (sus);
 
 /**
  * _cstrncmp - function that compares two strings
- *
  * @s1: first string
  * @s2: second string
  * @n: number
