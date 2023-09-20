@@ -31,14 +31,6 @@ int main(void)
 					free_2D(arguments);
 					continue;
 				}
-				if (_strcmp(arguments[0], "setenv") == 0)
-				{
-_setenv(arguments[1], arguments[2],1);
-				}
-				else if(_strcmp(arguments[0], "unsetenv") == 0)
-				{
-_unsetenv(arguments[1]);
-				}
 				if (path(arguments) == 1)
 					status = execution(arguments, line, 0);
 				else
