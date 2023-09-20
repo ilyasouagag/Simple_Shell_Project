@@ -50,7 +50,6 @@ void free_2D(char **grid)
 }
 /**
  * _strncmp - function that compares two strings
- *
  * @s1: first string
  * @s2: second string
  * @n: number
@@ -72,9 +71,7 @@ int _strncmp(char *s1, char *s2, int n)
 }
 /**
  * _strlen - return the legnth of a string
- *
  * @s: pointer
- *
  * Return: return len
  */
 int _strlen(char *s)
