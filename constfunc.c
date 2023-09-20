@@ -41,9 +41,7 @@ return (sus);
 }
 /**
  * _cstrlen - return the legnth of a string
- *
  * @s: pointer
- *
  * Return: return len
  */
 int _cstrlen(const char *s)
