@@ -1,10 +1,8 @@
 #include "main.h"
 /**
  * _cstrcmp - function that compares two strings
- *
  * @s1: first string
  * @s2: second string
- *
  * Return: return a value
  */
 int _cstrcmp(const char *s1, const char *s2)
