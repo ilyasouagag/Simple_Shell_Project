@@ -19,7 +19,10 @@ char *_strchr(const char *str, int character);
 char *_getenv(char *name);
 char *_cstrcpy(char *s1, const char *s2);
 char *_cgetenv(const char *name);
-
+int _cstrcmp(const char *s1, const char *s2);
+int _cstrncmp(const char *s1, const char *s2, int n);
+int _cstrlen(const char *s);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void free_2D(char **grid);
 int execution(char **arguments, char *entry, int alert);
 char **split_line(char *line, int alert);
