@@ -1,9 +1,6 @@
 #include "main.h"
 /**
  * main - create a simple shell
- * @ac: number of arguments
- * @argv: arguments passed in terminal
- * @env: environments
  * Return: return 0
  */
 int main(void)
@@ -18,7 +15,7 @@ int main(void)
 		index++;
 		if (!isatty(STDIN_FILENO))
 		{
-			while ((lenght = _getline(&line, &len, stdin)) != -1)
+			while ((lenght = getline(&line, &len, stdin)) != -1)
 			{
 				count++;
 				line[lenght - 1] = '\0';

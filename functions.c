@@ -1,11 +1,8 @@
 #include "main.h"
 /**
  * _strcpy - copies the string from s2 to s1
- *
  * @s1: s1
- *
  * @s2: s2
- *
  * Return: return the value
  */
 char *_strcpy(char *s1, char *s2)
@@ -19,6 +16,26 @@ char *_strcpy(char *s1, char *s2)
 	}
 	s1[i] = '\0';
 	return (s1);
+}
+/**
+ * _strcmp - function that compares two strings
+ * @s1: first string
+ * @s2: second string
+ * Return: return a value
+ */
+int _strcmp(char *s1, char *s2)
+{
+	int i, sus;
+
+	for (i = 0; s1[i] != 0 && s2[i] != 0; i++)
+	{
+		sus = s1[i] - s2[i];
+		if (sus > 0 || sus < 0)
+		{
+			break;
+		}
+	}
+	return (sus);
 }
 /**
  * my_strcat - function that concatenates two strings
@@ -44,28 +61,11 @@ char *my_strcat(char *s1, const char *s2)
 	return (s1);
 }
 /**
- * _strcmp - function that compares two strings
- *
- * @s1: first string
- * @s2: second string
- *
- * Return: return a value
+ * str_concat - function that concatenate argument with his path
+ * @s1: first string(path)
+ * @s2: second string(argument)
+ * Return: return concatenate string
  */
-
-int _strcmp(char *s1, char *s2)
-{
-	int i, sus;
-
-	for (i = 0; s1[i] != 0 && s2[i] != 0; i++)
-	{
-		sus = s1[i] - s2[i];
-		if (sus > 0 || sus < 0)
-		{
-			break;
-		}
-	}
-	return (sus);
-}
 char *str_concat(char *s1, char *s2)
 {
 	int len1 = 0, len2 = 0;
@@ -91,32 +91,24 @@ char *str_concat(char *s1, char *s2)
 	return (conct);
 }
 /**
- * _strtok - function takes a string str and a set of delimiters as input
- *
- * @str:string
- * @delimiters: string
- *
- * Return: return  the next token in the string
- */
-char *custom_strchr(const char *str, int character)
+ * _strchr - function
+ * @str: string
+ * @character: stops if it encouter that char
+ * Return: return string
+*/
+char *_strchr(const char *str, int character)
 {
-    while (*str)
-    {
-        if (*str == character)
-            return (char *)str;
-        str++;
-    }
-    return NULL;
-}
-char *_strchr(const char *str, int character) {
-    while (*str != '\0') {
-        if (*str == character) {
-            return (char *)str;
-        }
-        str++;
-    }
-    if (character == '\0') {
-        return (char *)str; 
-    }
-    return NULL; 
+	while (*str != '\0')
+	{
+		if (*str == character)
+		{
+			return ((char *)str);
+		}
+		str++;
+	}
+	if (character == '\0')
+	{
+		return ((char *)str);
+	}
+	return (NULL);
 }
