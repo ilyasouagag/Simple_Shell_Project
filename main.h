@@ -16,6 +16,10 @@ int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 char *_strdup(char *str);
 char *_strchr(const char *str, int character);
+char *_getenv(char *name);
+char *_cstrcpy(char *s1, const char *s2);
+char *_cgetenv(const char *name);
+
 void free_2D(char **grid);
 int execution(char **arguments, char *entry, int alert);
 char **split_line(char *line, int alert);
