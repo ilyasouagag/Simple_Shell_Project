@@ -1,8 +1,8 @@
 #include "main.h"
 /**
  * _strcpy - copies the string from s2 to s1
- * @s1: s1
- * @s2: s2
+ * @s1: First string
+ * @s2: Second string
  * Return: return the value
  */
 char *_strcpy(char *s1, char *s2)
