@@ -1,19 +1,19 @@
 #include "main.h"
 /**
  * STRTOK - split string using delimiter
- * @str: string
+ * @string: string
  * @delim: delimiter
  * Return: return token
  */
-char *STRTOK(char *str, const char *delim)
+char *STRTOK(char *string, const char *delim)
 {
 	static char *next_token;
 	char *token_start = NULL;
 
-	if (str != NULL)
-		next_token = str;
+	if (string != NULL)
+		next_token = string;
 
-	while (*next_token && custom_strchr(delim, *next_token))
+	while (*next_token && my_strchr(delim, *next_token))
 		next_token++;
 
 	if (*next_token == '\0')
@@ -21,7 +21,7 @@ char *STRTOK(char *str, const char *delim)
 
 	token_start = next_token;
 
-	while (*next_token && !custom_strchr(delim, *next_token))
+	while (*next_token && !my_strchr(delim, *next_token))
 		next_token++;
 
 	if (*next_token != '\0')
@@ -33,18 +33,18 @@ char *STRTOK(char *str, const char *delim)
 	return (token_start);
 }
 /**
- * custom_strchr - function that return a specefied string
- * @str: string
+ * my_strchr - function that return a specefied string
+ * @string: string
  * @character: char to stop if we arrive
  * Return: return string before character
  */
-char *custom_strchr(const char *str, int character)
+char *my_strchr(const char *string, int character)
 {
-	while (*str)
+	while (*string)
 	{
-		if (*str == character)
-			return ((char *)str);
-		str++;
+		if (*string == character)
+			return ((char *)string);
+		string++;
 	}
 	return (NULL);
 }

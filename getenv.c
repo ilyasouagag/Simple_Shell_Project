@@ -7,13 +7,13 @@
 char *_getenv(char *name)
 {
 	char **env;
-	size_t name_len = _strlen(name);
+	size_t leng = _strlen(name);
 
 	for (env = environ; *env != NULL; env++)
 	{
-		if (_strncmp(*env, name, name_len) == 0 && (*env)[name_len] == '=')
+		if (_strncmp(*env, name, leng) == 0 && (*env)[leng] == '=')
 		{
-			return (&(*env)[name_len + 1]);
+			return (&(*env)[leng + 1]);
 		}
 	}
 
